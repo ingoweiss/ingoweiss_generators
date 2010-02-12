@@ -13,7 +13,7 @@ class PostsController < ApplicationController
   end
 
   def new
-    @post = Post.new
+    @post = Post.new(params[:post])
     respond_with @post
   end
 
@@ -23,8 +23,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(params[:post])
-    @post.save
+    @post = Post.create(params[:post])
     respond_with @post
   end
 

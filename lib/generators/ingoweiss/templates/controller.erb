@@ -1,43 +1,63 @@
-class <%= controller_class_name %>Controller < ApplicationController 
+class <%= scoped_controller_class_name %>Controller < ApplicationController 
   
   respond_to :html, :xml, :json
   
   def index
-    @<%= plural_name %> = <%= class_name %>.all
-    respond_with @<%= plural_name %>
+    <%- controller_retrieve_scope.each do |line| -%>
+    <%= line %>
+    <%- end -%>
+    <%= controller_retrieve_collection %>
+    <%= controller_respond_with_collection %>
   end
 
   def show
-    @<%= singular_name %> = <%= class_name %>.find(params[:id])
-    respond_with @<%= singular_name %>
+    <%- controller_retrieve_scope.each do |line| -%>
+    <%= line %>
+    <%- end -%>
+    <%= controller_retrieve_resource %>
+    <%= controller_respond_with_resource %>
   end
 
   def new
-    @<%= singular_name %> = <%= class_name %>.new
-    respond_with @<%= singular_name %>
+    <%- controller_retrieve_scope.each do |line| -%>
+    <%= line %>
+    <%- end -%>
+    <%= controller_build_resource %>
+    <%= controller_respond_with_resource %>
   end
 
   def edit
-    @<%= singular_name %> = <%= class_name %>.find(params[:id])
-    respond_with @<%= singular_name %>
+    <%- controller_retrieve_scope.each do |line| -%>
+    <%= line %>
+    <%- end -%>
+    <%= controller_retrieve_resource %>
+    <%= controller_respond_with_resource %>
   end
 
   def create
-    @<%= singular_name %> = <%= class_name %>.new(params[:<%= singular_name %>])
-    @<%= singular_name %>.save
-    respond_with @<%= singular_name %>
+    <%- controller_retrieve_scope.each do |line| -%>
+    <%= line %>
+    <%- end -%>
+    <%= controller_create_resource %>
+    <%= controller_respond_with_resource %>
   end
 
   def update
-    @<%= singular_name %> = <%= class_name %>.find(params[:id])
-    @<%= singular_name %>.update_attributes(params[:<%= singular_name %>])
-    respond_with @<%= singular_name %>
+    <%- controller_retrieve_scope.each do |line| -%>
+    <%= line %>
+    <%- end -%>
+    <%= controller_retrieve_resource %>
+    <%= controller_update_resource %>
+    <%= controller_respond_with_resource %>
   end
 
   def destroy
-    @<%= singular_name %> = <%= class_name %>.find(params[:id])
-    @<%= singular_name %>.destroy
-    respond_with @<%= singular_name %>
+    <%- controller_retrieve_scope.each do |line| -%>
+    <%= line %>
+    <%- end -%>
+    <%= controller_retrieve_resource %>
+    <%= controller_destroy_resource %>
+    <%= controller_respond_with_resource %>
   end
   
 end
