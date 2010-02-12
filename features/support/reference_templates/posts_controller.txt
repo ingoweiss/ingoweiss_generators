@@ -1,7 +1,7 @@
 class PostsController < ApplicationController 
-  
+
   respond_to :html, :xml, :json
-  
+
   def index
     @posts = Post.all
     respond_with @posts
@@ -38,5 +38,5 @@ class PostsController < ApplicationController
     @post.destroy
     respond_with @post
   end
-  
+
 end

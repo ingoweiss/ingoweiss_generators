@@ -20,3 +20,12 @@ Feature: Generator generates files
    | comment | body:text  | no        | posts |
   Then the file 'app/controllers/post_comments_controller.rb' should be generated
   And the generated file should look like 'reference_templates/post_comments_controller'
+  
+  Scenario: Generator generates scaffold for nested (two levels) singular resource 
+  
+  Given a new rails app
+  When I generate a scaffold for the following resource:
+   | name     | attributes     | singleton | scope           |
+   | approval | result:boolean | yes       | posts, comments |
+  Then the file 'app/controllers/post_comment_approval_controller.rb' should be generated
+  And the generated file should look like 'reference_templates/post_comment_approval_controller'

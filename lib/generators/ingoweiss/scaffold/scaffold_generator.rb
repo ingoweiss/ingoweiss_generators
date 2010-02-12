@@ -20,7 +20,7 @@ module Ingoweiss
     private
     
     def scoped_controller_plural_name
-      (options[:scope].any? ? options[:scope].last.singularize + '_' : '') + plural_name
+      (options[:scope].collect{|i| i.singularize} + [options[:singleton] ? singular_name : plural_name]).join('_')
     end
     
     def scoped_controller_class_name
@@ -33,7 +33,7 @@ module Ingoweiss
         if index == 0
           lines << "@#{scope_item.singularize} = #{scope_item.singularize.classify}.find(params[:#{scope_item.singularize}_id])"
         else
-          previous_scope_item = scope[index-1]
+          previous_scope_item = options[:scope][index-1]
           if scope_item.pluralize == scope_item
             lines << "@#{scope_item.singularize} = @#{previous_scope_item.singularize}.#{scope_item.pluralize}.find(params[:#{scope_item.singularize}_id])"
           else
@@ -46,7 +46,11 @@ module Ingoweiss
     
     def controller_retrieve_resource
       if options[:scope].any?
-        "@#{name.singularize} = @#{options[:scope].last.singularize}.#{name.pluralize}.find(params[:id])"
+        if options[:singleton]
+          "@#{name.singularize} = @#{options[:scope].last.singularize}.#{name.singularize}"
+        else
+          "@#{name.singularize} = @#{options[:scope].last.singularize}.#{name.pluralize}.find(params[:id])"
+        end
       else
         "@#{name.singularize} = #{name.singularize.classify}.find(params[:id])"
       end
@@ -62,7 +66,11 @@ module Ingoweiss
     
     def controller_build_resource
       if options[:scope].any?
-        "@#{name.singularize} = @#{options[:scope].last.singularize}.#{name.pluralize}.build(params[:#{name.singularize}])"
+        if options[:singleton]
+          "@#{name.singularize} = @#{options[:scope].last.singularize}.build_#{name.singularize}(params[:#{name.singularize}])"
+        else
+          "@#{name.singularize} = @#{options[:scope].last.singularize}.#{name.pluralize}.build(params[:#{name.singularize}])"
+        end
       else
         "@#{name.singularize} = #{name.singularize.classify}.new(params[:#{name.singularize}])"
       end
@@ -70,7 +78,12 @@ module Ingoweiss
     
     def controller_create_resource
       if options[:scope].any?
-        "@#{name.singularize} = @#{options[:scope].last.singularize}.#{name.pluralize}.create(params[:#{name.singularize}])"
+        if options[:singleton]
+          "@#{name.singularize} = @#{options[:scope].last.singularize}.create_#{name.singularize}(params[:#{name.singularize}])"
+        else
+          "@#{name.singularize} = @#{options[:scope].last.singularize}.#{name.pluralize}.create(params[:#{name.singularize}])"
+        end
+        
       else
         "@#{name.singularize} = #{name.singularize.classify}.create(params[:#{name.singularize}])"
       end

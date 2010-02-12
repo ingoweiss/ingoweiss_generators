@@ -12,7 +12,7 @@ When /^I generate a scaffold for the following resource:$/ do |table|
   arguments << attributes['name']
   arguments << attributes['attributes']
   arguments << '--singleton' if attributes['singleton'] == 'yes'
-  arguments << '--scope ' + attributes['scope'] unless attributes['scope'].blank?
+  arguments << '--scope ' + attributes['scope'].split(', ').join(' ') unless attributes['scope'].blank?
   Dir.chdir(HOST_APP_ROOT) do
     %x[rails generate ingoweiss:scaffold #{arguments.join(' ')}]
   end

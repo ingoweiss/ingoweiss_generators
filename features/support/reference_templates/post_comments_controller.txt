@@ -1,7 +1,7 @@
 class PostCommentsController < ApplicationController 
-  
+
   respond_to :html, :xml, :json
-  
+
   def index
     @post = Post.find(params[:post_id])
     @comments = @post.comments
@@ -45,5 +45,5 @@ class PostCommentsController < ApplicationController
     @comment.destroy
     respond_with @post, @comment
   end
-  
+
 end
