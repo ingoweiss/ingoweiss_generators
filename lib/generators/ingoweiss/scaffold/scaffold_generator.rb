@@ -1,13 +1,16 @@
 require 'rails/generators/resource_helpers'
+require 'rails/generators/migration'
 
 module Ingoweiss
   class ScaffoldGenerator < Rails::Generators::NamedBase
     include Rails::Generators::ResourceHelpers
+    include Rails::Generators::Migration
   
     argument :name, :type => :string, :required => true
     argument :resource_attributes, :type => :hash, :required => false, :banner => 'field:type field:type'
     class_option :scope, :type => :array, :default => [], :banner => 'grand_parent parent', :desc => 'Indicate parent resource(s) if nested'
     class_option :singleton, :type => :boolean, :default => false
+    class_option :'skip-routes', :type => :boolean, :default => false
   
     def self.source_root
       @source_root ||= File.expand_path('../../templates', __FILE__)
@@ -16,6 +19,14 @@ module Ingoweiss
     def generate_controllers
       template 'controller.erb', "app/controllers/#{scoped_controller_plural_name}_controller.rb"
     end
+    
+    def add_routes
+      route "resource#{'s' unless options[:singleton]} :#{options[:singleton] ? singular_name : plural_name}" unless options[:'skip-routes']
+    end
+    
+    # def generate_migration
+    #   migration_template 'migration.erb', "db/migrate/create_#{plural_name}.rb"
+    # end
     
     private
     

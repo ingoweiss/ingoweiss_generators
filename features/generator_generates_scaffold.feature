@@ -11,6 +11,7 @@ Feature: Generator generates files
    | post | title:string body:text | no        |       |
   Then the file 'app/controllers/posts_controller.rb' should be generated
   And the generated file should look like 'reference_templates/posts_controller'
+  And the routes should contain 'resources :posts'
   
   Scenario: Generator generates scaffold for nested (one level) plural resource 
   
@@ -20,6 +21,7 @@ Feature: Generator generates files
    | comment | body:text  | no        | posts |
   Then the file 'app/controllers/post_comments_controller.rb' should be generated
   And the generated file should look like 'reference_templates/post_comments_controller'
+  And the routes should contain 'resources :comments'
   
   Scenario: Generator generates scaffold for nested (two levels) singular resource 
   
@@ -29,3 +31,4 @@ Feature: Generator generates files
    | approval | result:boolean | yes       | posts, comments |
   Then the file 'app/controllers/post_comment_approval_controller.rb' should be generated
   And the generated file should look like 'reference_templates/post_comment_approval_controller'
+  And the routes should contain 'resource :approval'

@@ -27,3 +27,7 @@ end
 Then /^the generated file should look like '(.*)'$/ do |reference_template|
   @generated_file.should eql(IO.read(File.join(PLUGIN_ROOT, 'features', 'support', (reference_template + '.txt'))))
 end
+
+Then /^the routes should contain '(.*)'$/ do |resource_route|
+  IO.read(File.join(HOST_APP_ROOT, 'config/routes.rb')).should match(%r[#{resource_route}])
+end
