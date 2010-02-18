@@ -24,9 +24,11 @@ module Ingoweiss
       route "resource#{'s' unless options[:singleton]} :#{options[:singleton] ? singular_name : plural_name}" unless options[:'skip-routes']
     end
     
-    # def generate_migration
-    #   migration_template 'migration.erb', "db/migrate/create_#{plural_name}.rb"
-    # end
+    def generate_model
+      arguments = [singular_name] + resource_attributes.collect{ |name, type| "#{name}:#{type}" }
+      arguments << "#{options[:scope].last.singularize}_id:integer" if options[:scope].any?
+      invoke :model, arguments
+    end
     
     private
     
