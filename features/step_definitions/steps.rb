@@ -25,7 +25,9 @@ Then /^the file '(.*)' should be generated$/ do |file_path|
 end
 
 Then /^the migration '(.*)' should be generated$/ do |migration_name|
-  Dir[HOST_APP_ROOT + '/db/migrate/*.rb'].detect{|m| File.basename(m, '.rb').match(%r[\d+_#{migration_name}])}.should_not be_nil
+  full_file_path = Dir[HOST_APP_ROOT + '/db/migrate/*.rb'].detect{|m| File.basename(m, '.rb').match(%r[\d+_#{migration_name}])}
+  full_file_path.should_not be_nil
+  @generated_file = IO.read(full_file_path)
 end
 
 Then /^the generated file should look like '(.*)'$/ do |reference_template|
