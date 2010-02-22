@@ -7,7 +7,7 @@ module Ingoweiss
     include Rails::Generators::Migration
   
     argument :name, :type => :string, :required => true
-    argument :resource_attributes, :type => :hash, :required => false, :banner => 'field:type field:type'
+    argument :attributes, :type => :array, :required => false, :banner => 'field:type field:type'
     class_option :scope, :type => :array, :default => [], :banner => 'grand_parent parent', :desc => 'Indicate parent resource(s) if nested'
     class_option :singleton, :type => :boolean, :default => false, :desc => 'Is this a singleton resource?'
     class_option :'skip-route', :type => :boolean, :default => false, :desc => 'Do not add route to config/routes.rb'
@@ -20,12 +20,16 @@ module Ingoweiss
       template 'controller.erb', "app/controllers/#{scoped_controller_plural_name}_controller.rb"
     end
     
+    def generate_erb
+      template 'index.html.erb', "app/views/#{scoped_controller_plural_name}/index.html.erb" unless options[:singleton]
+    end
+    
     def add_routes
       route "resource#{'s' unless options[:singleton]} :#{options[:singleton] ? singular_name : plural_name}" unless options[:'skip-routes']
     end
     
     def generate_model
-      arguments = [singular_name] + resource_attributes.collect{ |name, type| "#{name}:#{type}" }
+      arguments = [singular_name] + attributes.collect{ |a| [a.name, a.type].join(':') }
       arguments << "#{options[:scope].last.singularize}_id:integer" if options[:scope].any?
       invoke :model, arguments
     end

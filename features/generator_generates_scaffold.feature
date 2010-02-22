@@ -14,6 +14,8 @@ Feature: Generator generates files
   And the routes should contain 'resources :posts'
   And the migration 'create_posts' should be generated
   And the generated file should look like 'reference_templates/create_posts'
+  And the file 'app/views/posts/index.html.erb' should be generated
+  And the generated file should look like 'reference_templates/posts/index'
   
   Scenario: Generator generates scaffold for nested (one level) plural resource 
   
@@ -26,6 +28,8 @@ Feature: Generator generates files
   And the routes should contain 'resources :comments'
   And the migration 'create_comments' should be generated
   And the generated file should look like 'reference_templates/create_comments'
+  And the file 'app/views/post_comments/index.html.erb' should be generated
+  And the generated file should look like 'reference_templates/post_comments/index'
   
   Scenario: Generator generates scaffold for nested (two levels) singular resource 
   
