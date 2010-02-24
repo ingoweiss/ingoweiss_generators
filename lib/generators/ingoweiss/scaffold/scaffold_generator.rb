@@ -20,10 +20,6 @@ module Ingoweiss
       template 'controller.erb', "app/controllers/#{scoped_controller_plural_name}_controller.rb"
     end
     
-    def generate_erb
-      template 'index.html.erb', "app/views/#{scoped_controller_plural_name}/index.html.erb" unless options[:singleton]
-    end
-    
     def add_routes
       route "resource#{'s' unless options[:singleton]} :#{options[:singleton] ? singular_name : plural_name}" unless options[:'skip-routes']
     end
@@ -32,6 +28,12 @@ module Ingoweiss
       arguments = [singular_name] + attributes.collect{ |a| [a.name, a.type].join(':') }
       arguments << "#{options[:scope].last.singularize}_id:integer" if options[:scope].any?
       invoke :model, arguments
+    end
+    
+    def generate_erb
+      template 'index.html.erb', "app/views/#{scoped_controller_plural_name}/index.html.erb" unless options[:singleton]
+      template 'new.html.erb', "app/views/#{scoped_controller_plural_name}/new.html.erb"
+      template '_form.html.erb', "app/views/#{scoped_controller_plural_name}/_form.html.erb"
     end
     
     private

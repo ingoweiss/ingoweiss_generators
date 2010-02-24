@@ -16,6 +16,10 @@ Feature: Generator generates files
   And the generated file should look like 'reference_templates/create_posts'
   And the file 'app/views/posts/index.html.erb' should be generated
   And the generated file should look like 'reference_templates/posts/index'
+  And the file 'app/views/posts/new.html.erb' should be generated
+  And the generated file should look like 'reference_templates/posts/new'
+  And the file 'app/views/posts/_form.html.erb' should be generated
+  And the generated file should look like 'reference_templates/posts/_form'
   
   Scenario: Generator generates scaffold for nested (one level) plural resource 
   
