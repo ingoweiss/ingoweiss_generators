@@ -34,6 +34,7 @@ module Ingoweiss
       template 'index.html.erb', "app/views/#{scoped_controller_plural_name}/index.html.erb" unless options[:singleton]
       template 'new.html.erb', "app/views/#{scoped_controller_plural_name}/new.html.erb"
       template '_form.html.erb', "app/views/#{scoped_controller_plural_name}/_form.html.erb"
+      template 'show.html.erb', "app/views/#{scoped_controller_plural_name}/show.html.erb"
     end
     
     private
