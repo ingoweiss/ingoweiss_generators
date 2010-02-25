@@ -21,7 +21,7 @@ module Ingoweiss
     end
     
     def add_routes
-      route "resource#{'s' unless options[:singleton]} :#{options[:singleton] ? singular_name : plural_name}" unless options[:'skip-routes']
+      route "resource#{'s' unless options[:singleton]} :#{options[:singleton] ? singular_name : plural_name}" unless options[:'skip-route']
     end
     
     def generate_model
