@@ -52,10 +52,28 @@ module Ingoweiss
       invoke :stylesheets
     end
     
+    def inject_link_to_children
+      return if singleton? || unscoped?
+      parent_resource_view_folder = (scope[0..-2].collect(&:singularize) + [scope.last]).join('_')
+      append_file "app/views/#{parent_resource_view_folder}/show.html.erb", "<%= link_to 'Show #{plural_name}', #{scope_prefix}#{plural_name}_path(#{instance_variable_scope}) %>\n"
+    end
+    
     private
     
     def scope
       options[:scope]
+    end
+    
+    def scoped?
+      scope.any?
+    end
+    
+    def unscoped?
+      !scoped?
+    end
+    
+    def singleton?
+      options[:singleton]
     end
     
     # Example: 'post_comment_' for post_comment_approval_path
