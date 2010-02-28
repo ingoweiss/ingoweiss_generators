@@ -1,4 +1,4 @@
-<%% form_for(@<%= singular_name %>) do |f| %>
+<%% form_for <%= options[:scope].empty? ? ['@', singular_name].join : ['[', instance_variable_scope('@' + singular_name), ']'].join %> do |f| %>
   <%%= f.error_messages %>
 
 <% for attribute in attributes -%>

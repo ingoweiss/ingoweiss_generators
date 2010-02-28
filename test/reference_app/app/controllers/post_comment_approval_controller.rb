@@ -1,5 +1,6 @@
 class PostCommentApprovalController < ApplicationController 
 
+  layout 'scaffold'
   respond_to :html, :xml, :json
 
   def show

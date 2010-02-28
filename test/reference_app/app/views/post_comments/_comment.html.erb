@@ -1,0 +1,6 @@
+<tr>
+  <td><%= comment.body %></td>
+  <td><%= link_to 'Show', post_comment_path(@post, comment) %></td>
+  <td><%= link_to 'Edit', edit_post_comment_path(@post, comment) %></td>
+  <td><%= link_to 'Destroy', post_comment_path(@post, comment), :confirm => 'Are you sure?', :method => :delete %></td>
+</tr>

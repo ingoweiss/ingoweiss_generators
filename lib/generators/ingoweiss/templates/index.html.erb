@@ -9,19 +9,7 @@
     <th></th>
     <th></th>
   </tr>
-
-<%% @<%= plural_name %>.each do |<%= singular_name %>| %>
-  <tr>
-<% for attribute in attributes -%>
-    <td><%%= <%= singular_name %>.<%= attribute.name %> %></td>
-<% end -%>
-    <td><%%= link_to 'Show', <%= singular_name %> %></td>
-    <td><%%= link_to 'Edit', edit_<%= singular_name %>_path(<%= singular_name %>) %></td>
-    <td><%%= link_to 'Destroy', <%= singular_name %>, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<%% end %>
+  <%%= render @<%= plural_name %> %>
 </table>
 
-<br />
-
-<%%= link_to 'New <%= singular_name %>', new_<%= singular_name %>_path %>
+<p><%%= link_to 'New <%= singular_name %>', new_<%= scope_prefix + singular_name %>_path(<%= instance_variable_scope %>) %></p>

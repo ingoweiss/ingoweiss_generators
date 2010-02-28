@@ -1,0 +1,8 @@
+<tr>
+<% for attribute in attributes -%>
+  <td><%%= <%= singular_name %>.<%= attribute.name %> %></td>
+<% end -%>
+  <td><%%= link_to 'Show', <%= scope_prefix + singular_name %>_path(<%= instance_variable_scope(singular_name) %>) %></td>
+  <td><%%= link_to 'Edit', edit_<%= scope_prefix + singular_name %>_path(<%= instance_variable_scope(singular_name) %>) %></td>
+  <td><%%= link_to 'Destroy', <%= scope_prefix + singular_name %>_path(<%= instance_variable_scope(singular_name) %>), :confirm => 'Are you sure?', :method => :delete %></td>
+</tr>

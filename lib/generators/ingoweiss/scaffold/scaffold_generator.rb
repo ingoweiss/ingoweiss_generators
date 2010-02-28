@@ -30,19 +30,48 @@ module Ingoweiss
       invoke :model, arguments
     end
     
+    def inject_associations
+      return if options[:scope].empty?
+      parent = options[:scope].last.singularize
+      inject_into_file("app/models/#{parent}.rb", :after => /< ActiveRecord::Base\n/) do
+        options[:singleton] ? "  has_one :#{singular_name}\n" : "  has_many :#{plural_name}\n"
+      end
+      inject_into_file("app/models/#{singular_name}.rb", :after => /< ActiveRecord::Base\n/) do
+        "  belongs_to :#{parent}\n"
+      end
+    end
+    
     def generate_erb
       template 'index.html.erb', "app/views/#{scoped_controller_plural_name}/index.html.erb" unless options[:singleton]
+      template '_entry.html.erb', "app/views/#{scoped_controller_plural_name}/_#{singular_name}.html.erb"
       template 'new.html.erb', "app/views/#{scoped_controller_plural_name}/new.html.erb"
+      template 'edit.html.erb', "app/views/#{scoped_controller_plural_name}/edit.html.erb"
       template '_form.html.erb', "app/views/#{scoped_controller_plural_name}/_form.html.erb"
       template 'show.html.erb', "app/views/#{scoped_controller_plural_name}/show.html.erb"
+      template 'layout.html.erb', "app/views/layouts/scaffold.html.erb" unless File.exists?(File.join(destination_root, 'app/views/layouts/scaffold.html.erb'))
+      invoke :stylesheets
     end
     
     private
     
-    def scoped_controller_plural_name
-      (options[:scope].collect{|i| i.singularize} + [options[:singleton] ? singular_name : plural_name]).join('_')
+    # Example: 'post_comment_' for post_comment_approval_path
+    def scope_prefix
+      options[:scope].collect{|s| s.singularize + '_'}.join
     end
     
+    # Example: '@post, @comment, approval'
+    def instance_variable_scope(variable=nil)
+      scope = options[:scope].collect{|s| '@' + s.singularize}
+      scope << variable if variable
+      scope.join(', ')
+    end
+    
+    # Examples: 'post_comments', 'post_comment_approval'
+    def scoped_controller_plural_name
+      scope_prefix + (options[:singleton] ? singular_name : plural_name)
+    end
+    
+    # Examples: 'PostComments', 'PostCommentApproval'
     def scoped_controller_class_name
       scoped_controller_plural_name.camelize
     end

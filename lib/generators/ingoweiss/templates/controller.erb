@@ -1,5 +1,6 @@
 class <%= scoped_controller_class_name %>Controller < ApplicationController 
 
+  layout 'scaffold'
   respond_to :html, :xml, :json
 
   <%- unless options[:singleton] -%>

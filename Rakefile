@@ -1,10 +1,3 @@
-require 'cucumber'
-require 'cucumber/rake/task'
-
-Cucumber::Rake::Task.new(:features) do |t|
-  t.cucumber_opts = '--tags ~@wip --no-source'
-end
-
 require 'rake/testtask'
 
 desc 'Run test/unit tests'
@@ -15,4 +8,4 @@ Rake::TestTask.new(:test) { |t|
 }
 
 
-task :default => [:features]
+task :default => [:test]
