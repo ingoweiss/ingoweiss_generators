@@ -26,13 +26,13 @@ module Ingoweiss
     
     def generate_model
       arguments = [singular_name] + attributes.collect{ |a| [a.name, a.type].join(':') }
-      arguments << "#{options[:scope].last.singularize}_id:integer" if options[:scope].any?
+      arguments << "#{scope.last.singularize}_id:integer" if scope.any?
       invoke :model, arguments
     end
     
     def inject_associations
-      return if options[:scope].empty?
-      parent = options[:scope].last.singularize
+      return if scope.empty?
+      parent = scope.last.singularize
       inject_into_file("app/models/#{parent}.rb", :after => /< ActiveRecord::Base\n/) do
         options[:singleton] ? "  has_one :#{singular_name}\n" : "  has_many :#{plural_name}\n"
       end
@@ -54,16 +54,20 @@ module Ingoweiss
     
     private
     
+    def scope
+      options[:scope]
+    end
+    
     # Example: 'post_comment_' for post_comment_approval_path
     def scope_prefix
-      options[:scope].collect{|s| s.singularize + '_'}.join
+      scope.collect{|s| s.singularize + '_'}.join
     end
     
     # Example: '@post, @comment, approval'
     def instance_variable_scope(variable=nil)
-      scope = options[:scope].collect{|s| '@' + s.singularize}
-      scope << variable if variable
-      scope.join(', ')
+      instance_variables = scope.collect{|s| '@' + s.singularize}
+      instance_variables << variable if variable
+      instance_variables.join(', ')
     end
     
     # Examples: 'post_comments', 'post_comment_approval'
@@ -78,11 +82,11 @@ module Ingoweiss
     
     def controller_retrieve_scope
       lines = []
-      options[:scope].each_with_index do |scope_item, index|
+      scope.each_with_index do |scope_item, index|
         if index == 0
           lines << "@#{scope_item.singularize} = #{scope_item.singularize.classify}.find(params[:#{scope_item.singularize}_id])"
         else
-          previous_scope_item = options[:scope][index-1]
+          previous_scope_item = scope[index-1]
           if scope_item.pluralize == scope_item
             lines << "@#{scope_item.singularize} = @#{previous_scope_item.singularize}.#{scope_item.pluralize}.find(params[:#{scope_item.singularize}_id])"
           else
@@ -94,11 +98,11 @@ module Ingoweiss
     end
     
     def controller_retrieve_resource
-      if options[:scope].any?
+      if scope.any?
         if options[:singleton]
-          "@#{name.singularize} = @#{options[:scope].last.singularize}.#{name.singularize}"
+          "@#{name.singularize} = @#{scope.last.singularize}.#{name.singularize}"
         else
-          "@#{name.singularize} = @#{options[:scope].last.singularize}.#{name.pluralize}.find(params[:id])"
+          "@#{name.singularize} = @#{scope.last.singularize}.#{name.pluralize}.find(params[:id])"
         end
       else
         "@#{name.singularize} = #{name.singularize.classify}.find(params[:id])"
@@ -106,19 +110,19 @@ module Ingoweiss
     end
     
     def controller_retrieve_collection
-      if options[:scope].any?
-        "@#{name.pluralize} = @#{options[:scope].last.singularize}.#{name.pluralize}"
+      if scope.any?
+        "@#{name.pluralize} = @#{scope.last.singularize}.#{name.pluralize}"
       else
         "@#{name.pluralize} = #{name.singularize.classify}.all"
       end
     end
     
     def controller_build_resource
-      if options[:scope].any?
+      if scope.any?
         if options[:singleton]
-          "@#{name.singularize} = @#{options[:scope].last.singularize}.build_#{name.singularize}(params[:#{name.singularize}])"
+          "@#{name.singularize} = @#{scope.last.singularize}.build_#{name.singularize}(params[:#{name.singularize}])"
         else
-          "@#{name.singularize} = @#{options[:scope].last.singularize}.#{name.pluralize}.build(params[:#{name.singularize}])"
+          "@#{name.singularize} = @#{scope.last.singularize}.#{name.pluralize}.build(params[:#{name.singularize}])"
         end
       else
         "@#{name.singularize} = #{name.singularize.classify}.new(params[:#{name.singularize}])"
@@ -126,11 +130,11 @@ module Ingoweiss
     end
     
     def controller_create_resource
-      if options[:scope].any?
+      if scope.any?
         if options[:singleton]
-          "@#{name.singularize} = @#{options[:scope].last.singularize}.create_#{name.singularize}(params[:#{name.singularize}])"
+          "@#{name.singularize} = @#{scope.last.singularize}.create_#{name.singularize}(params[:#{name.singularize}])"
         else
-          "@#{name.singularize} = @#{options[:scope].last.singularize}.#{name.pluralize}.create(params[:#{name.singularize}])"
+          "@#{name.singularize} = @#{scope.last.singularize}.#{name.pluralize}.create(params[:#{name.singularize}])"
         end
         
       else
@@ -147,11 +151,11 @@ module Ingoweiss
     end
     
     def controller_respond_with_collection
-      "respond_with #{(options[:scope].collect{|scope_item| '@' + scope_item.singularize} + ['@' + name.pluralize]).join(', ')}"
+      "respond_with #{(scope.collect{|scope_item| '@' + scope_item.singularize} + ['@' + name.pluralize]).join(', ')}"
     end
   
     def controller_respond_with_resource
-      "respond_with #{(options[:scope].collect{|scope_item| '@' + scope_item.singularize} + ['@' + name.singularize]).join(', ')}"
+      "respond_with #{(scope.collect{|scope_item| '@' + scope_item.singularize} + ['@' + name.singularize]).join(', ')}"
     end
   
   end
