@@ -54,7 +54,7 @@ module Ingoweiss
     
     def inject_link_to_children
       return if singleton? || unscoped?
-      parent_resource_view_folder = (scope[0..-2].collect(&:singularize) + [scope.last]).join('_')
+      parent_resource_view_folder = (scope[0..-2].collect(&:singularize) << scope.last).join('_')
       append_file "app/views/#{parent_resource_view_folder}/show.html.erb", "<%= link_to 'Show #{plural_name}', #{scope_prefix}#{plural_name}_path(#{instance_variable_scope}) %>\n"
     end
     

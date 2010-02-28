@@ -21,14 +21,14 @@ class GeneratedAppTest < ActionController::IntegrationTest
     assert_response :success
     get '/posts/new'
     assert_response :success
-    post '/posts', :post => {:title => 'My first post', :body => 'Scaffolding for fun and profit'}
+    post '/posts', :post => {:title => 'Scaffolding for fun and profit', :body => 'Scaffolding can be useful if...'}
     follow_redirect!
     assert_response :success
-    assert_not_nil Post.find_by_title('My first post')
+    assert_not_nil Post.find_by_title('Scaffolding for fun and profit')
   end
   
   def test_post_comment_creation
-    post = Post.create(:title => 'My first post', :body => 'Scaffolding for fun and profit')
+    post = Post.create(:title => 'Scaffolding for fun and profit', :body => 'Scaffolding can be useful if...')
     get "/posts/#{post.to_param}/comments"
     assert_response :success
     get "/posts/#{post.to_param}/comments/new"
