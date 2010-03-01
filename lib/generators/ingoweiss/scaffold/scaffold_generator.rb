@@ -46,7 +46,7 @@ module Ingoweiss
       template '_entry.html.erb', "app/views/#{scoped_controller_plural_name}/_#{singular_name}.html.erb"
       template 'new.html.erb', "app/views/#{scoped_controller_plural_name}/new.html.erb"
       template 'edit.html.erb', "app/views/#{scoped_controller_plural_name}/edit.html.erb"
-      template '_form.html.erb', "app/views/#{scoped_controller_plural_name}/_form.html.erb"
+      template '_fields.html.erb', "app/views/#{scoped_controller_plural_name}/_fields.html.erb"
       template 'show.html.erb', "app/views/#{scoped_controller_plural_name}/show.html.erb"
       template 'layout.html.erb', "app/views/layouts/scaffold.html.erb" unless File.exists?(File.join(destination_root, 'app/views/layouts/scaffold.html.erb'))
       invoke :stylesheets

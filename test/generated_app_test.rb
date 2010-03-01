@@ -39,16 +39,14 @@ class GeneratedAppTest < ActionController::IntegrationTest
     assert_not_nil post.comments.find_by_body('Great post!')
   end
   
-  # def test_post_comment_approval_creation
-  #   post = Post.create(:title => 'My first post', :body => 'Scaffolding for fun and profit')
-  #   comment = post.comments.create(:body => 'Great post!')
-  #   get "/posts/#{post.to_param}/comments/#{comment.to_param}/approval/new"
-  #   assert_response :success
-  #   post "/posts/#{post.to_param}/comments/#{comment.to_param}/approval"
-  #   follow_redirect!
-  #   assert_response :success
-  #   assert_not_nil comment.approval
-  # end
+  def test_post_comment_approval_creation
+    post = Post.create(:title => 'My first post', :body => 'Scaffolding for fun and profit')
+    comment = post.comments.create(:body => 'Great post!')
+    get "/posts/#{post.to_param}/comments/#{comment.to_param}/approval/new"
+    assert_response :success
+    post "/posts/#{post.to_param}/comments/#{comment.to_param}/approval"
+    assert_not_nil comment.approval
+  end
     
   
 end
