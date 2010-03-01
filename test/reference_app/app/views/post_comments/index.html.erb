@@ -7,7 +7,7 @@
     <th></th>
     <th></th>
   </tr>
-  <%= render @comments %>
+  <%= render :partial => 'comment', :collection => @comments %>
 </table>
 
 <p><%= link_to 'New comment', new_post_comment_path(@post) %></p>

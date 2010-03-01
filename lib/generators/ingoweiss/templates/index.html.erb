@@ -9,7 +9,7 @@
     <th></th>
     <th></th>
   </tr>
-  <%%= render @<%= plural_name %> %>
+  <%%= render :partial => '<%= singular_name %>', :collection => @<%= plural_name %> %>
 </table>
 
 <p><%%= link_to 'New <%= singular_name %>', new_<%= scope_prefix + singular_name %>_path(<%= instance_variable_scope %>) %></p>
