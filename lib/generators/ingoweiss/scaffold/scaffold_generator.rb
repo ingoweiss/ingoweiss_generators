@@ -10,7 +10,7 @@ module Ingoweiss
     argument :attributes, :type => :array, :required => false, :banner => 'field:type field:type'
     class_option :scope, :type => :array, :default => [], :banner => 'grand_parent parent', :desc => 'Indicate parent resource(s) if nested'
     class_option :singleton, :type => :boolean, :default => false, :desc => 'Is this a singleton resource?'
-    class_option :'skip-route', :type => :boolean, :default => false, :desc => 'Do not add route to config/routes.rb'
+    class_option :skip_route, :type => :boolean, :default => false, :desc => 'Do not add route to config/routes.rb'
   
     def self.source_root
       @source_root ||= File.expand_path('../../templates', __FILE__)
