@@ -6,7 +6,6 @@ module Ingoweiss
     include Rails::Generators::ResourceHelpers
     include Rails::Generators::Migration
   
-    argument :name, :type => :string, :required => true
     argument :attributes, :type => :array, :required => false, :banner => 'field:type field:type'
     class_option :scope, :type => :array, :default => [], :banner => 'grand_parent parent', :desc => 'Indicate parent resource(s) if nested'
     class_option :singleton, :type => :boolean, :default => false, :desc => 'Is this a singleton resource?'
