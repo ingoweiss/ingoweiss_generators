@@ -1,6 +1,6 @@
 <h1>New <%= singular_name %></h1>
 
-<%% form_for :<%= singular_name %>, :url => <%= scope_prefix + (singleton? ? singular_name : plural_name) %>_path(<%= instance_variable_scope %>) do |f| %>
+<%%= form_for :<%= singular_name %>, :url => <%= scope_prefix + (singleton? ? singular_name : plural_name) %>_path(<%= instance_variable_scope %>) do |f| %>
   <%%= f.error_messages %>
   <%%= render :partial => 'fields', :locals => {:f => f} %>
   <%%= f.submit %>

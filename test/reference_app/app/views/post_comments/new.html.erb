@@ -1,6 +1,6 @@
 <h1>New comment</h1>
 
-<% form_for :comment, :url => post_comments_path(@post) do |f| %>
+<%= form_for :comment, :url => post_comments_path(@post) do |f| %>
   <%= f.error_messages %>
   <%= render :partial => 'fields', :locals => {:f => f} %>
   <%= f.submit %>
