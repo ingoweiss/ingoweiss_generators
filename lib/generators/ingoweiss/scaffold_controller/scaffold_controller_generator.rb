@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '../helpers/scope_helper')
+require File.expand_path('../../helpers/scope_helper', __FILE__)
 
 module Ingoweiss
   class ScaffoldControllerGenerator < Rails::Generators::NamedBase
