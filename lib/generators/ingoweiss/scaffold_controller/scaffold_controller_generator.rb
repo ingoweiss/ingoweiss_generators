@@ -4,7 +4,7 @@ module Ingoweiss
   class ScaffoldControllerGenerator < Rails::Generators::NamedBase
     
     include ScopeHelper
-    
+    argument :attributes, :type => :array, :required => false #only needed to determine whether resource HAS attributes or not. Maybe use boolean option --attributes instead?
     class_option :scope, :type => :array, :default => [], :banner => 'grand_parent parent', :desc => 'Indicate parent resource(s) if nested'
     class_option :singleton, :type => :boolean, :default => false, :desc => 'Is this a singleton resource?'
   
@@ -68,25 +68,25 @@ module Ingoweiss
     def controller_build_resource
       if options.scope.any?
         if options[:singleton]
-          "@#{name.singularize} = @#{scope.last.singularize}.build_#{name.singularize}(params[:#{name.singularize}])"
+          "@#{name.singularize} = @#{scope.last.singularize}.build_#{name.singularize}" + (attributes.any? ? "(params[:#{name.singularize}])" : '')
         else
-          "@#{name.singularize} = @#{scope.last.singularize}.#{name.pluralize}.build(params[:#{name.singularize}])"
+          "@#{name.singularize} = @#{scope.last.singularize}.#{name.pluralize}.build" + (attributes.any? ? "(params[:#{name.singularize}])" : '')
         end
       else
-        "@#{name.singularize} = #{name.singularize.classify}.new(params[:#{name.singularize}])"
+        "@#{name.singularize} = #{name.singularize.classify}.new" + (attributes.any? ? "(params[:#{name.singularize}])" : '')
       end
     end
     
     def controller_create_resource
       if options.scope.any?
         if options[:singleton]
-          "@#{name.singularize} = @#{scope.last.singularize}.create_#{name.singularize}(params[:#{name.singularize}])"
+          "@#{name.singularize} = @#{scope.last.singularize}.create_#{name.singularize}" + (attributes.any? ? "(params[:#{name.singularize}])" : '')
         else
-          "@#{name.singularize} = @#{scope.last.singularize}.#{name.pluralize}.create(params[:#{name.singularize}])"
+          "@#{name.singularize} = @#{scope.last.singularize}.#{name.pluralize}.create" + (attributes.any? ? "(params[:#{name.singularize}])" : '')
         end
         
       else
-        "@#{name.singularize} = #{name.singularize.classify}.create(params[:#{name.singularize}])"
+        "@#{name.singularize} = #{name.singularize.classify}.create" + (attributes.any? ? "(params[:#{name.singularize}])" : '')
       end
     end
     

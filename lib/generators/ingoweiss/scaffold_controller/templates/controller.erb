@@ -29,6 +29,7 @@ class <%= scoped_controller_class_name %>Controller < ApplicationController
     <%= controller_respond_with_resource %>
   end
 
+  <%- unless attributes.none? -%>
   def edit
     <%- controller_retrieve_scope.each do |line| -%>
     <%= line %>
@@ -37,6 +38,7 @@ class <%= scoped_controller_class_name %>Controller < ApplicationController
     <%= controller_respond_with_resource %>
   end
 
+  <%- end -%>
   def create
     <%- controller_retrieve_scope.each do |line| -%>
     <%= line %>
@@ -45,6 +47,7 @@ class <%= scoped_controller_class_name %>Controller < ApplicationController
     <%= controller_respond_with_resource %>
   end
 
+  <%- unless attributes.none? -%>
   def update
     <%- controller_retrieve_scope.each do |line| -%>
     <%= line %>
@@ -54,6 +57,7 @@ class <%= scoped_controller_class_name %>Controller < ApplicationController
     <%= controller_respond_with_resource %>
   end
 
+  <%- end -%>
   def destroy
     <%- controller_retrieve_scope.each do |line| -%>
     <%= line %>

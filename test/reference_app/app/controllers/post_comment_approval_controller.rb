@@ -13,29 +13,14 @@ class PostCommentApprovalController < ApplicationController
   def new
     @post = Post.find(params[:post_id])
     @comment = @post.comments.find(params[:comment_id])
-    @approval = @comment.build_approval(params[:approval])
-    respond_with @post, @comment, @approval
-  end
-
-  def edit
-    @post = Post.find(params[:post_id])
-    @comment = @post.comments.find(params[:comment_id])
-    @approval = @comment.approval
+    @approval = @comment.build_approval
     respond_with @post, @comment, @approval
   end
 
   def create
     @post = Post.find(params[:post_id])
     @comment = @post.comments.find(params[:comment_id])
-    @approval = @comment.create_approval(params[:approval])
-    respond_with @post, @comment, @approval
-  end
-
-  def update
-    @post = Post.find(params[:post_id])
-    @comment = @post.comments.find(params[:comment_id])
-    @approval = @comment.approval
-    @approval.update_attributes(params[:approval])
+    @approval = @comment.create_approval
     respond_with @post, @comment, @approval
   end
 

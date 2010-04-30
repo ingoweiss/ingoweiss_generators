@@ -1,0 +1,1 @@
+0.0.3 Controllers for resources without attributes now only have the necessary code
