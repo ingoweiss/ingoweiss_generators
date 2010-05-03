@@ -1,12 +1,12 @@
 require 'rails/generators/resource_helpers'
 require 'rails/generators/migration'
-require File.join(File.dirname(__FILE__), '../helpers/scope_helper') 
+require File.join(File.dirname(__FILE__), '../helpers/scope_helpers') 
 
 module Ingoweiss
   class ScaffoldGenerator < Rails::Generators::NamedBase
     include Rails::Generators::ResourceHelpers
     include Rails::Generators::Migration
-    include ScopeHelper
+    include ScopeHelpers
   
     argument :attributes, :type => :array, :required => false, :banner => 'field:type field:type'
     class_option :scope, :type => :array, :default => [], :banner => 'grand_parent parent', :desc => 'Indicate parent resource(s) if nested'
@@ -39,42 +39,6 @@ module Ingoweiss
       inject_into_file("app/models/#{singular_name}.rb", :after => /< ActiveRecord::Base\n/) do
         "  belongs_to :#{parent}\n"
       end
-    end
-    
-    def generate_erb
-      template 'index.html.erb', "app/views/#{scoped_controller_plural_name}/index.html.erb" unless options[:singleton]
-      template '_entry.html.erb', "app/views/#{scoped_controller_plural_name}/_#{singular_name}.html.erb"
-      template 'new.html.erb', "app/views/#{scoped_controller_plural_name}/new.html.erb"
-      template 'edit.html.erb', "app/views/#{scoped_controller_plural_name}/edit.html.erb"
-      template '_fields.html.erb', "app/views/#{scoped_controller_plural_name}/_fields.html.erb"
-      template 'show.html.erb', "app/views/#{scoped_controller_plural_name}/show.html.erb"
-      template 'layout.html.erb', "app/views/layouts/scaffold.html.erb" unless File.exists?(File.join(destination_root, 'app/views/layouts/scaffold.html.erb'))
-      invoke :stylesheets
-    end
-    
-    def inject_link_to_children
-      return if singleton? || unscoped?
-      parent_resource_view_folder = (scope[0..-2].collect(&:singularize) << scope.last).join('_')
-      append_file "app/views/#{parent_resource_view_folder}/show.html.erb", "<%= link_to 'Show #{plural_name}', #{scope_prefix}#{plural_name}_path(#{instance_variable_scope}) %>\n"
-    end
-    
-    private
-    
-    # Example: '@post, @comment, approval'
-    def instance_variable_scope(variable=nil)
-      instance_variables = scope.collect{|s| '@' + s.singularize}
-      instance_variables << variable if variable
-      instance_variables.join(', ')
-    end
-    
-    # Examples: 'post_comments', 'post_comment_approval'
-    def scoped_controller_plural_name
-      scope_prefix + (options[:singleton] ? singular_name : plural_name)
-    end
-    
-    # Examples: 'PostComments', 'PostCommentApproval'
-    def scoped_controller_class_name
-      scoped_controller_plural_name.camelize
     end
   
   end

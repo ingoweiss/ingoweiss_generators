@@ -1,19 +1,23 @@
-require File.expand_path('../../helpers/scope_helper', __FILE__)
+require File.expand_path('../../helpers/scope_helpers', __FILE__)
 
 module Ingoweiss
   class ScaffoldControllerGenerator < Rails::Generators::NamedBase
     
-    include ScopeHelper
+    include ScopeHelpers
     argument :attributes, :type => :array, :required => false #only needed to determine whether resource HAS attributes or not. Maybe use boolean option --attributes instead?
     class_option :scope, :type => :array, :default => [], :banner => 'grand_parent parent', :desc => 'Indicate parent resource(s) if nested'
     class_option :singleton, :type => :boolean, :default => false, :desc => 'Is this a singleton resource?'
-  
+    
     def self.source_root
       @source_root ||= File.expand_path('../templates', __FILE__)
     end
   
     def generate_controller
       template 'controller.erb', "app/controllers/#{scoped_controller_plural_name}_controller.rb"
+    end
+    
+    def generate_views
+      invoke 'ingoweiss:scaffold_views'
     end
     
     private
