@@ -1,7 +1,7 @@
-class PostsController < ApplicationController 
+class PostsController < ActionController::Base
 
-  layout 'scaffold'
   respond_to :html, :xml, :json
+  layout 'scaffold'
 
   def index
     @posts = Post.all

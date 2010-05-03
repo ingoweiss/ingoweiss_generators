@@ -95,7 +95,7 @@ module Ingoweiss
     end
     
     def controller_update_resource
-      "@#{name.singularize}.update_attributes(params[:#{name.singularize}])"
+      "@#{name.singularize}.update_attributes" + (attributes.any? ? "(params[:#{name.singularize}])" : '')
     end
     
     def controller_respond_with_collection

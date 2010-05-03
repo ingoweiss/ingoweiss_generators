@@ -1,70 +1,58 @@
-class <%= scoped_controller_class_name %>Controller < ApplicationController 
+class <%= scoped_controller_class_name %>Controller < ActionController::Base
 
-  layout 'scaffold'
+<%- if scoped? -%>
+  before_filter :scope
+<%- end -%>
   respond_to :html, :xml, :json
+  layout 'scaffold'
 
   <%- unless options[:singleton] -%>
   def index
-    <%- controller_retrieve_scope.each do |line| -%>
-    <%= line %>
-    <%- end -%>
     <%= controller_retrieve_collection %>
     <%= controller_respond_with_collection %>
   end
 
   <%- end -%>
   def show
-    <%- controller_retrieve_scope.each do |line| -%>
-    <%= line %>
-    <%- end -%>
     <%= controller_retrieve_resource %>
     <%= controller_respond_with_resource %>
   end
 
   def new
-    <%- controller_retrieve_scope.each do |line| -%>
-    <%= line %>
-    <%- end -%>
     <%= controller_build_resource %>
     <%= controller_respond_with_resource %>
   end
 
-  <%- unless attributes.none? -%>
   def edit
-    <%- controller_retrieve_scope.each do |line| -%>
-    <%= line %>
-    <%- end -%>
     <%= controller_retrieve_resource %>
     <%= controller_respond_with_resource %>
   end
 
-  <%- end -%>
   def create
-    <%- controller_retrieve_scope.each do |line| -%>
-    <%= line %>
-    <%- end -%>
     <%= controller_create_resource %>
     <%= controller_respond_with_resource %>
   end
 
-  <%- unless attributes.none? -%>
   def update
-    <%- controller_retrieve_scope.each do |line| -%>
-    <%= line %>
-    <%- end -%>
     <%= controller_retrieve_resource %>
     <%= controller_update_resource %>
     <%= controller_respond_with_resource %>
   end
 
-  <%- end -%>
   def destroy
-    <%- controller_retrieve_scope.each do |line| -%>
-    <%= line %>
-    <%- end -%>
     <%= controller_retrieve_resource %>
     <%= controller_destroy_resource %>
     <%= controller_respond_with_resource %>
   end
 
+<%- if scoped? -%>
+  private
+
+  def scope
+<%- controller_retrieve_scope.each do |line| -%>
+    <%= line %>
+<%- end -%>
+  end
+
+<%- end -%>
 end
