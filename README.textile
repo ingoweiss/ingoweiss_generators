@@ -18,3 +18,5 @@ p. This will generate scaffold for a 'comments' resource at '/posts/123/comments
 h3. Installation
 
 bc.. gem install ingoweiss_generators
+
+Copyright (c) 2010 Ingo Weiss, released under the MIT license
