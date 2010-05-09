@@ -4,7 +4,7 @@ A collection of generators
 
 h3. ingoweiss:scaffold
 
-p. A scaffold generator. Presently there are only view differences to the standard Rails scaffold generator that allow the generator to be driven by the "relay":http://github.com/ingoweiss/relay meta generator:
+p. A scaffold generator. Presently there are only view differences to the standard Rails scaffold generator that allow the generator to be driven by the "foam":http://github.com/ingoweiss/foam meta generator:
 
 * 'scope' option (--scope=posts comments), adding support for deeply nested resources
 * 'skip_routes' option (--skip-routes) for skipping the injection of routes into 'config/routes.rb'

@@ -7,6 +7,7 @@ A collection of generators reflecting my personal preferences
 DESCRIPTION
   gem.authors = ['Ingo Weiss']
   gem.email = 'ingo@ingoweiss.com'
+  gem.homepage = 'http://www.github.com/ingoweiss/ingoweiss_generators'
   gem.files = Dir['lib/**/*']
   gem.add_dependency 'rails', '~> 3.0.0.beta1'
 end
