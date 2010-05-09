@@ -8,12 +8,12 @@ p. A scaffold generator. Presently there are only view differences to the standa
 
 * 'scope' option (--scope=posts comments), adding support for deeply nested resources
 * 'skip_routes' option (--skip-routes) for skipping the injection of routes into 'config/routes.rb'
-* controller are using the Rails 3 'respond_with' style
+* controllers are using the Rails 3 'respond_with' style
 
 bc.. # Example usage:
 rails generate ingoweiss:scaffold comments body:text --scope=posts
 
-p. This will generate scaffold for 'comments' resource at '/posts/123/comments'
+p. This will generate scaffold for a 'comments' resource at '/posts/123/comments'
 
 h3. Installation
 
