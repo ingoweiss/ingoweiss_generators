@@ -1,4 +1,4 @@
-class PostCommentsController < ActionController::Base
+class PostCommentsController < ApplicationController
 
   before_filter :scope
   respond_to :html, :xml, :json

@@ -1,4 +1,4 @@
-class PostCommentApprovalController < ActionController::Base
+class PostCommentApprovalController < ApplicationController
 
   before_filter :scope
   respond_to :html, :xml, :json

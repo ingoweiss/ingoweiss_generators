@@ -1,1 +1,2 @@
-0.0.3 Controllers for resources without attributes now only have the necessary code
+0.0.3 Controllers for resources without attributes now only have the code that is actually necessary
+0.0.4 Controllers now inherit from ApplicationController

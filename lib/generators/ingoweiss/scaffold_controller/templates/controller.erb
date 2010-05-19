@@ -1,4 +1,4 @@
-class <%= scoped_controller_class_name %>Controller < ActionController::Base
+class <%= scoped_controller_class_name %>Controller < ApplicationController
 
 <%- if scoped? -%>
   before_filter :scope

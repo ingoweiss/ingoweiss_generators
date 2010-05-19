@@ -1,4 +1,4 @@
-class PostsController < ActionController::Base
+class PostsController < ApplicationController
 
   respond_to :html, :xml, :json
   layout 'scaffold'
