@@ -7,7 +7,7 @@ module HostAppHelper
   
   def recreate_host_app
     FileUtils.rm_rf(HOST_APP_ROOT) if File.exist?(HOST_APP_ROOT)
-    system "INGOWEISS_GENERATORS_ROOT='#{INGOWEISS_GENERATORS_ROOT}' rails #{HOST_APP_ROOT} -m #{INGOWEISS_GENERATORS_ROOT}/test/helpers/host_app_template.rb"
+    system "INGOWEISS_GENERATORS_ROOT='#{INGOWEISS_GENERATORS_ROOT}' rails new #{HOST_APP_ROOT} --template=#{INGOWEISS_GENERATORS_ROOT}/test/helpers/host_app_template.rb"
   end
   
   def install_reference_app_routes
